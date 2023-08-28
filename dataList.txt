@@ -13,6 +13,5 @@ Máquina(nome, ip, fkUnidade, fkConta)
 Componentes de Hardware(CPU, Memoria, RAM, Placa de Rede, Sistema Operacional, fkMaquina, fkUnidade, fkConta)
 
 Rede(velocidadeDownload, velocidadeUpload, DATAHORA, latencia, fkMaquina, fkUnidade, fkConta)
-ProcessosAtivos
 
 Metrica/Leitura(porcentagem de uso, DATAHORA, fkHardware, fkComponente, fkMaquina, fkUnidade, fkConta)
