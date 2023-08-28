@@ -1,0 +1,12 @@
+Conta(nome, cnpj)
+usuario(email, senha)
+Unidade(telFixo, nome, cep)
+
+MAQUINA(nome, ip, fkUnidade, fkConta)
+
+Componentes de Hardware(CPU, Memoria, RAM, Placa de Video, Placa de Rede, Processos Ativos, Sistema Operacional)
+
+Rede( velocidade, DATAHORA, latencia)
+ProcessosAtivos
+
+Alerta(DATAHORA, fkHardware, fkComponente, fkRede, fkProcessosAtivos, fkMaquina, fkUnidade, fkConta)
