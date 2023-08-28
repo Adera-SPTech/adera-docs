@@ -15,3 +15,6 @@ Componentes de Hardware(CPU, Memoria, RAM, Placa de Rede, Sistema Operacional, f
 Rede(velocidadeDownload, velocidadeUpload, DATAHORA, latencia, fkMaquina, fkUnidade, fkConta)
 
 Metrica/Leitura(porcentagem de uso, DATAHORA, fkHardware, fkComponente, fkMaquina, fkUnidade, fkConta)
+
+Alerta(DATAHORA, fkMaquina, fkUnidade, fkConta, fkMetrica, fkComponente, fkHardware)
+
