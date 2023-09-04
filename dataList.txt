@@ -8,9 +8,13 @@ Unidade(telFixo, nome, cep, logradouro, numero, complemento, bairro, cidade, est
 
 Usuário(email, senha, nome)
 
-Máquina(nome, ip)
+Máquina(nome, numeroSerie, OS)
 
-Componentes de Hardware(CPU, Memoria, RAM, Placa de Rede, Sistema Operacional)
+Componentes de Hardware[
+CPU[qtCores, Clock, qtThreads, Arquitetura],
+Memoria[Capacidade], 
+RAM[Quantidade, Frequência],
+]
 
 Rede(velocidadeDownload, velocidadeUpload, DATAHORA, latencia)
 
