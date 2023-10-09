@@ -35,6 +35,7 @@ create table maquina (
     os varchar(45) not null,
     fabricante varchar(45) not null,
     arquitetura int not null,
+    enderecoMac varchar(45) not null,
     fkEstabelecimento char(36) not null,
     foreign key (fkEstabelecimento) references estabelecimento(id)
 );
@@ -92,6 +93,7 @@ create table alerta (
 	id char(36) primary key,
 	nivel varchar(10) not null,
     descricao varchar(90) not null,
-    fkMetrica char(36) not null,	constraint chkNivel check (nivel in ('aviso', 'critico')),
+    fkMetrica char(36) not null,
+	constraint chkNivel check (nivel in ('aviso', 'critico')),
     foreign key (fkMetrica) references metrica(id)
 );
