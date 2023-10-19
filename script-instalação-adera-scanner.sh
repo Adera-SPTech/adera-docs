@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Atualiza a lista de pacotes e atualiza o sistema
-sudo apt update && sudo apt upgrade
+sudo apt update && sudo apt upgrade -y
 
 # Verifica a versão do Java
 java -version
@@ -13,9 +13,12 @@ if [$? -eq 0]
     else
         echo "Java não está instalado. Deseja instalar? (Y/n)"
         read resposta
-        if [ "$resposta" = "Y" ] 
+        if [ "$resposta" = "Y" ]if [ $res == "s" ] || [ $res == "S"] || [ $res == "sim" ] || [ $res == "SIM"] || [ $res == "Sim"] ; 
         then
           sudo apt install openjdk-17-jre -y
+        else 
+          echo "Instalação cancelada"
+          exit 1
         fi
 fi
 
