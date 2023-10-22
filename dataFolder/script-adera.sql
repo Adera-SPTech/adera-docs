@@ -1,99 +1,139 @@
 drop database if exists adera;
 create database if not exists adera;
-use adera;
+USE adera ;
 
-create table estabelecimento (
-	id char(36) primary key,
-    nome varchar(45) not null,
-    cnpj char(14) not null
-);
+-- -----------------------------------------------------
+-- Table adera.estabelecimento
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS adera.estabelecimento (
+  id CHAR(36) NOT NULL,
+  nome VARCHAR(45) NOT NULL,
+  cnpj CHAR(14) NOT NULL,
+  PRIMARY KEY (id))
+;
 
-create table endereco (
-	cep char(8) not null,
-	logradouro varchar(45) not null,
-    numero varchar(6) not null,
-    cidade varchar(45) not null,
-    estado char(2) not null,
-    complemento varchar(45),
-    bairro varchar(45) not null,
-    fkEstabelecimento char(36) not null,
-    foreign key (fkEstabelecimento) references estabelecimento(id)
-);
-create table usuario (
-	id char(36) primary key,
-    email varchar(90) not null,
-    senha varchar(45) not null,
-    nome varchar(45) not null,
-    sobrenome varchar(45) not null,
-    cargo varchar(45) not null,
-    fkEstabelecimento char(36) not null,
-    foreign key (fkEstabelecimento) references estabelecimento(id)
-);
+-- -----------------------------------------------------
+-- Table adera.maquina
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS adera.maquina (
+  id CHAR(36) NOT NULL,
+  os VARCHAR(45) NOT NULL,
+  fabricante VARCHAR(45) NOT NULL,
+  arquitetura INT NOT NULL,
+  enderecoMac varchar(45) not null,
+  fkEstabelecimento CHAR(36) NOT NULL,
+  PRIMARY KEY (id),
+  INDEX fkEstabelecimento (fkEstabelecimento ASC) VISIBLE,
+  CONSTRAINT maquina_ibfk_1
+    FOREIGN KEY (fkEstabelecimento)
+    REFERENCES adera.estabelecimento (id))
+;
 
-create table maquina (
-	id char(36) primary key,
-    os varchar(45) not null,
-    fabricante varchar(45) not null,
-    arquitetura int not null,
-    enderecoMac varchar(45) not null,
-    fkEstabelecimento char(36) not null,
-    foreign key (fkEstabelecimento) references estabelecimento(id)
-);
 
-create table `cpu` (
-	id char(36) primary key,
-    qtdNucleos int not null,
-    freq double not null,
-    modelo varchar(45) not null,
-    fabricante varchar(45) not null,
-    fkMaquina char(36) not null,
-    foreign key (fkMaquina) references maquina(id)
-);
+-- -----------------------------------------------------
+-- Table adera.unidademedida
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS adera.unidademedida (
+  id INT NOT NULL AUTO_INCREMENT,
+  nome VARCHAR(10) NOT NULL,
+  abreviacao VARCHAR(5) NOT NULL,
+  PRIMARY KEY (id));
 
-create table memoria (
-	id char(36) primary key,
-	capacidade double not null,
-    freq double not null,
-    tipo varchar(5),
-    fkMaquina char(36) not null,
-    foreign key (fkMaquina) references maquina(id)
-);
 
-create table disco (
-	id char(36) primary key,
-    capacidade double not null,
-    fkMaquina char(36) not null,
-    foreign key (fkMaquina) references maquina(id)
-);
+-- -----------------------------------------------------
+-- Table adera.tipocomponente
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS adera.tipocomponente (
+  id INT NOT NULL AUTO_INCREMENT,
+  nome VARCHAR(45) NOT NULL,
+  fkUnidadeMedida INT NOT NULL,
+  PRIMARY KEY (id),
+  INDEX fkUnidadeMedida (fkUnidadeMedida ASC) VISIBLE,
+  CONSTRAINT tipocomponente_ibfk_1
+    FOREIGN KEY (fkUnidadeMedida)
+    REFERENCES adera.unidademedida (id));
 
-create table rede (
-	id char(36) primary key,
-    ipv4 varbinary(16) not null,
-    ipv6 varbinary(16) not null
-);
 
-create table interfacesRede (
-	fkMaquina char(36) not null,
-    fkRede char(36) not null,
-    foreign key (fkMaquina) references maquina(id),
-    foreign key (fkRede) references rede(id)
-);
+-- -----------------------------------------------------
+-- Table adera.maquinacomponente
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS adera.maquinacomponente (
+  id CHAR(36) NOT NULL,
+  modelo VARCHAR(45) NOT NULL,
+  descricao VARCHAR(45) NOT NULL,
+  fkMaquina CHAR(36) NOT NULL,
+  fkTipoComponente INT NOT NULL,
+  PRIMARY KEY (id),
+  INDEX fkMaquina (fkMaquina ASC) VISIBLE,
+  INDEX fkTipoComponente (fkTipoComponente ASC) VISIBLE,
+  CONSTRAINT maquinacomponente_ibfk_1
+    FOREIGN KEY (fkMaquina)
+    REFERENCES adera.maquina (id),
+  CONSTRAINT maquinacomponente_ibfk_2
+    FOREIGN KEY (fkTipoComponente)
+    REFERENCES adera.tipocomponente (id));
 
-create table metrica (
-	id char(36) primary key,
-    usoCpu double not null,
-    usoRam double not null,
-    usoDisco double not null,
-    dtMetrica datetime not null,
-    fkMaquina char(36) not null,
-    foreign key (fkMaquina) references maquina(id)
-);
 
-create table alerta (
-	id char(36) primary key,
-	nivel varchar(10) not null,
-    descricao varchar(90) not null,
-    fkMetrica char(36) not null,
-	constraint chkNivel check (nivel in ('aviso', 'critico')),
-    foreign key (fkMetrica) references metrica(id)
-);
+-- -----------------------------------------------------
+-- Table adera.metrica
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS adera.metrica (
+  id CHAR(36) NOT NULL,
+  medicao INT NOT NULL,
+  fkMaquinaComponente CHAR(36) NOT NULL,
+  PRIMARY KEY (id),
+  INDEX fkMaquinaComponente (fkMaquinaComponente ASC) VISIBLE,
+  CONSTRAINT metrica_ibfk_1
+    FOREIGN KEY (fkMaquinaComponente)
+    REFERENCES adera.maquinacomponente (id));
+
+
+-- -----------------------------------------------------
+-- Table adera.alerta
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS adera.alerta (
+  id CHAR(36) NOT NULL,
+  nivel VARCHAR(10) NOT NULL,
+  descricao VARCHAR(90) NOT NULL,
+  fkMetrica CHAR(36) NOT NULL,
+  PRIMARY KEY (id),
+  INDEX fkMetrica (fkMetrica ASC) VISIBLE,
+  CONSTRAINT alerta_ibfk_1
+    FOREIGN KEY (fkMetrica)
+    REFERENCES adera.metrica (id));
+
+
+-- -----------------------------------------------------
+-- Table adera.endereco
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS adera.endereco (
+  cep CHAR(8) NOT NULL,
+  logradouro VARCHAR(45) NOT NULL,
+  numero VARCHAR(6) NOT NULL,
+  cidade VARCHAR(45) NOT NULL,
+  estado CHAR(2) NOT NULL,
+  complemento VARCHAR(45) NULL DEFAULT NULL,
+  bairro VARCHAR(45) NOT NULL,
+  fkEstabelecimento CHAR(36) NOT NULL,
+  INDEX fkEstabelecimento (fkEstabelecimento ASC) VISIBLE,
+  CONSTRAINT endereco_ibfk_1
+    FOREIGN KEY (fkEstabelecimento)
+    REFERENCES adera.estabelecimento (id));
+
+
+-- -----------------------------------------------------
+-- Table adera.usuario
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS adera.usuario (
+  id CHAR(36) NOT NULL,
+  email VARCHAR(90) NOT NULL,
+  senha VARCHAR(45) NOT NULL,
+  nome VARCHAR(45) NOT NULL,
+  sobrenome VARCHAR(45) NOT NULL,
+  cargo VARCHAR(45) NOT NULL,
+  fkEstabelecimento CHAR(36) NOT NULL,
+  PRIMARY KEY (id),
+  INDEX fkEstabelecimento (fkEstabelecimento ASC) VISIBLE,
+  CONSTRAINT usuario_ibfk_1
+    FOREIGN KEY (fkEstabelecimento)
+    REFERENCES adera.estabelecimento (id));
