@@ -3,23 +3,21 @@
 # Atualiza a lista de pacotes e atualiza o sistema
 sudo apt update && sudo apt upgrade -y
 
-# Verifica a versão do Java
-java -version
-
-# Verifica se o Java não está instalado e, se não estiver, solicita a instalação
-if [$? -eq 0]
-    then
-        echo "Java instalado"
+# Check if java is installed
+if command -v java &> /dev/null
+then
+    echo "Java já está instalado."
+else
+    # Ask the user if they want to install java
+    read -p "Java não está instalado, desejá instalar o java? (s/n): " install_java
+    if [ "$install_java" == "s" ]; then
+        # Install Java
+        sudo apt install openjdk-17-jre
+        echo "Java instalado com sucesso."
     else
-        echo "Java não está instalado. Deseja instalar? (Y/n)"
-        read resposta
-        if [ "$resposta" = "Y" ]if [ $res == "s" ] || [ $res == "S"] || [ $res == "sim" ] || [ $res == "SIM"] || [ $res == "Sim"] ; 
-        then
-          sudo apt install openjdk-17-jre -y
-        else 
-          echo "Instalação cancelada"
-          exit 1
-        fi
+        echo "Java não está instalado. Saindo..."
+        exit 1
+    fi
 fi
 
 # Baixa o arquivo .jar do meu grupo de PI
