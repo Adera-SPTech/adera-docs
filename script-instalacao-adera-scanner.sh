@@ -23,8 +23,4 @@ fi
 # Baixa o arquivo .jar do meu grupo de PI
 curl -O -L "https://github.com/Adera-SPTech/adera-scanner/raw/dev/out/artifacts/adera_scanner_jar/adera-scanner.jar"
 
-# Executa o arquivo .jar do meu grupo de PI
-java -jar adera-scanner.jar
-
-
-chmod +x scriptProjeto.sh
+chmod +x script-instalacao-adera-scanner.sh
