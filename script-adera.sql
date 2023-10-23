@@ -60,9 +60,9 @@ CREATE TABLE IF NOT EXISTS adera.tipocomponente (
     REFERENCES adera.unidademedida (id));
 
 INSERT INTO adera.tipocomponente VALUES
-	(null, 'cpu', 2),
-    (null, 'memory', 1),
-    (null, 'disk', 1);
+	(null, 'CPU', 2),
+    (null, 'MEMORY', 1),
+    (null, 'DISK', 1);
 
 -- -----------------------------------------------------
 -- Table adera.maquinacomponente
