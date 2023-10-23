@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS adera.maquinacomponente (
   id CHAR(36) NOT NULL,
   modelo VARCHAR(90) NOT NULL,
   descricao VARCHAR(45) NOT NULL,
-  capacidade DECIMAL(5, 2),
+  capacidade DOUBLE,
   fkMaquina CHAR(36) NOT NULL,
   fkTipoComponente INT NOT NULL,
   PRIMARY KEY (id),
