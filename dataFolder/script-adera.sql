@@ -12,7 +12,6 @@ CREATE TABLE IF NOT EXISTS adera.estabelecimento (
   PRIMARY KEY (id))
 ;
 
-<<<<<<< Updated upstream
 -- -----------------------------------------------------
 -- Table adera.maquina
 -- -----------------------------------------------------
@@ -74,8 +73,6 @@ CREATE TABLE IF NOT EXISTS adera.maquinacomponente (
     FOREIGN KEY (fkTipoComponente)
     REFERENCES adera.tipocomponente (id));
 
-
-=======
 INSERT INTO adera.estabelecimento VALUES ('78c0330e-70f7-11ee-b962-0242ac120002', 'Walmart', '24616269000165');
 
 -- -----------------------------------------------------
@@ -124,9 +121,9 @@ CREATE TABLE IF NOT EXISTS adera.tipocomponente (
     REFERENCES adera.unidademedida (id));
 
 INSERT INTO adera.tipocomponente VALUES
-	(null, 'cpu', 2),
-    (null, 'memory', 1),
-    (null, 'disk', 1);
+	(null, 'CPU', 2),
+    (null, 'MEMORY', 1),
+    (null, 'DISK', 1);
 
 -- -----------------------------------------------------
 -- Table adera.maquinacomponente
@@ -135,6 +132,7 @@ CREATE TABLE IF NOT EXISTS adera.maquinacomponente (
   id CHAR(36) NOT NULL,
   modelo VARCHAR(90) NOT NULL,
   descricao VARCHAR(45) NOT NULL,
+  capacidade DECIMAL(5, 2),
   fkMaquina CHAR(36) NOT NULL,
   fkTipoComponente INT NOT NULL,
   PRIMARY KEY (id),
@@ -147,19 +145,14 @@ CREATE TABLE IF NOT EXISTS adera.maquinacomponente (
     FOREIGN KEY (fkTipoComponente)
     REFERENCES adera.tipocomponente (id));
 
-
->>>>>>> Stashed changes
 -- -----------------------------------------------------
 -- Table adera.metrica
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS adera.metrica (
   id CHAR(36) NOT NULL,
-<<<<<<< Updated upstream
   medicao INT NOT NULL,
-=======
   medicao VARCHAR(180) NOT NULL,
   data DATETIME NOT NULL,
->>>>>>> Stashed changes
   fkMaquinaComponente CHAR(36) NOT NULL,
   PRIMARY KEY (id),
   INDEX fkMaquinaComponente (fkMaquinaComponente ASC) VISIBLE,
@@ -217,8 +210,5 @@ CREATE TABLE IF NOT EXISTS adera.usuario (
   CONSTRAINT usuario_ibfk_1
     FOREIGN KEY (fkEstabelecimento)
     REFERENCES adera.estabelecimento (id));
-<<<<<<< Updated upstream
-=======
     
 INSERT INTO adera.usuario VALUES ('9f2eea3a-70f7-11ee-b962-0242ac120002', 'renansilva.dev@gmail.com', 'aditum123', 'Renan', 'Silva', 'Tecnico', '78c0330e-70f7-11ee-b962-0242ac120002');
->>>>>>> Stashed changes
