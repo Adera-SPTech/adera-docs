@@ -151,3 +151,4 @@ CREATE TABLE IF NOT EXISTS adera.usuario (
     REFERENCES adera.estabelecimento (id));
     
 INSERT INTO adera.usuario VALUES ('9f2eea3a-70f7-11ee-b962-0242ac120002', 'renansilva.dev@gmail.com', 'aditum123', 'Renan', 'Silva', 'Tecnico', '78c0330e-70f7-11ee-b962-0242ac120002');
+
