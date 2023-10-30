@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS adera.unidademedida (
   abreviacao VARCHAR(5) NOT NULL,
   PRIMARY KEY (id));
 
-INSERT INTO adera.unidadeMedida VALUES 
+INSERT INTO adera.unidademedida VALUES 
 	(null, 'byte', 'b'),
     (null, 'porcentagem', '%'),
     (null, 'heartz', 'hz');
