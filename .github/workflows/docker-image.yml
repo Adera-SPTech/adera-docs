@@ -2,7 +2,7 @@ name: Auto DB Image Adera
 on:
   push:
     branches:
-      - "main"
+      - "master"
 
 jobs:
   build:
