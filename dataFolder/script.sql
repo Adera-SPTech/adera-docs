@@ -12,6 +12,8 @@ CREATE TABLE IF NOT EXISTS adera.estabelecimento (
   PRIMARY KEY (id))
 ;
 
+INSERT INTO adera.estabelecimento VALUES ('78c0330e-70f7-11ee-b962-0242ac120002', 'Walmart', '24616269000165');
+
 -- -----------------------------------------------------
 -- Table adera.maquina
 -- -----------------------------------------------------
@@ -39,26 +41,10 @@ CREATE TABLE IF NOT EXISTS adera.unidademedida (
   abreviacao VARCHAR(5) NOT NULL,
   PRIMARY KEY (id));
 
-
--- -----------------------------------------------------
--- Table adera.tipocomponente
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS adera.tipocomponente (
-  id INT NOT NULL AUTO_INCREMENT,
-  nome VARCHAR(45) NOT NULL,
-  fkUnidadeMedida INT NOT NULL,
-  PRIMARY KEY (id),
-  INDEX fkUnidadeMedida (fkUnidadeMedida ASC) VISIBLE,
-  CONSTRAINT tipocomponente_ibfk_1
-    FOREIGN KEY (fkUnidadeMedida)
-    REFERENCES adera.unidademedida (id));
-
-INSERT INTO adera.estabelecimento VALUES ('78c0330e-70f7-11ee-b962-0242ac120002', 'Walmart', '24616269000165');
-
-INSERT INTO adera.unidademedida VALUES 
-	(1, 'byte', 'b'),
-    (2, 'porcentagem', '%'),
-    (3, 'heartz', 'hz');
+INSERT INTO adera.unidadeMedida VALUES 
+	(null, 'byte', 'b'),
+    (null, 'porcentagem', '%'),
+    (null, 'heartz', 'hz');
 
 -- -----------------------------------------------------
 -- Table adera.tipocomponente
@@ -85,7 +71,7 @@ CREATE TABLE IF NOT EXISTS adera.maquinacomponente (
   id CHAR(36) NOT NULL,
   modelo VARCHAR(90) NOT NULL,
   descricao VARCHAR(45) NOT NULL,
-  capacidade DOUBLE,
+  capacidade DOUBLE NOT NULL,
   fkMaquina CHAR(36) NOT NULL,
   fkTipoComponente INT NOT NULL,
   PRIMARY KEY (id),
@@ -97,6 +83,7 @@ CREATE TABLE IF NOT EXISTS adera.maquinacomponente (
   CONSTRAINT maquinacomponente_ibfk_2
     FOREIGN KEY (fkTipoComponente)
     REFERENCES adera.tipocomponente (id));
+
 
 -- -----------------------------------------------------
 -- Table adera.metrica
