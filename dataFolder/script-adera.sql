@@ -1,5 +1,5 @@
-drop database if exists adera;
-create database if not exists adera;
+DROP DATABASE IF EXISTS adera;
+CREATE DATABASE IF NOT EXISTS adera;
 USE adera ;
 
 -- -----------------------------------------------------
@@ -53,25 +53,10 @@ CREATE TABLE IF NOT EXISTS adera.tipocomponente (
     FOREIGN KEY (fkUnidadeMedida)
     REFERENCES adera.unidademedida (id));
 
-INSERT INTO adera.estabelecimento VALUES ('78c0330e-70f7-11ee-b962-0242ac120002', 'Walmart', '24616269000165');
-
 INSERT INTO adera.unidademedida VALUES 
 	(1, 'byte', 'b'),
     (2, 'porcentagem', '%'),
     (3, 'heartz', 'hz');
-
--- -----------------------------------------------------
--- Table adera.tipocomponente
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS adera.tipocomponente (
-  id INT NOT NULL AUTO_INCREMENT,
-  nome VARCHAR(45) NOT NULL,
-  fkUnidadeMedida INT NOT NULL,
-  PRIMARY KEY (id),
-  INDEX fkUnidadeMedida (fkUnidadeMedida ASC) VISIBLE,
-  CONSTRAINT tipocomponente_ibfk_1
-    FOREIGN KEY (fkUnidadeMedida)
-    REFERENCES adera.unidademedida (id));
 
 INSERT INTO adera.tipocomponente VALUES
 	(null, 'CPU', 2),
@@ -162,5 +147,54 @@ CREATE TABLE IF NOT EXISTS adera.usuario (
   CONSTRAINT usuario_ibfk_1
     FOREIGN KEY (fkEstabelecimento)
     REFERENCES adera.estabelecimento (id));
-    
-INSERT INTO adera.usuario VALUES ('9f2eea3a-70f7-11ee-b962-0242ac120002', 'renansilva.dev@gmail.com', 'aditum123', 'Renan', 'Silva', 'Tecnico', '78c0330e-70f7-11ee-b962-0242ac120002');
+
+-- -----------------------------------------------------
+-- Table adera.opcoes
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS adera.opcoes (
+	id INT NOT NULL,
+    autoRestart BOOLEAN NOT NULL,
+    restartPeriodico BOOLEAN NOT NULL,
+    horaRestart TIME NOT NULL,
+    cpuLimite INT NOT NULL,
+    ramLimite INT NOT NULL,
+    diskLimite INT NOT NULL,
+    fkEstabelecimento CHAR(36) NOT NULL,
+    PRIMARY KEY (id, fkEstabelecimento),
+    INDEX fkEstabelecimento (fkEstabelecimento ASC) VISIBLE,
+    CONSTRAINT opcoes_ibfk_1
+		FOREIGN KEY (fkEstabelecimento)
+        REFERENCES adera.estabelecimento (id));
+        
+-- -----------------------------------------------------
+-- Table adera.comando
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS adera.comando (
+	id CHAR(36) NOT NULL,
+    comando INT NOT NULL,
+    rodou BOOLEAN NOT NULL,
+    fkMaquina CHAR(36) NOT NULL,
+    INDEX fkMaquina (fkMaquina ASC) VISIBLE,
+    CONSTRAINT comando_ibfk_1
+		FOREIGN KEY (fkMaquina)
+        REFERENCES adera.maquina (id));
+
+delimiter //
+
+CREATE PROCEDURE adera.inserirEstabelecimento (IN id CHAR(36), IN nome VARCHAR(45), IN cnpj CHAR(14), IN cep CHAR(8), IN logradouro CHAR(45), IN numero VARCHAR(6), IN cidade VARCHAR(45), IN estado CHAR(2), IN complemento VARCHAR(45), IN bairro VARCHAR(45))
+BEGIN
+	START TRANSACTION;
+	INSERT INTO adera.estabelecimento VALUES (id, nome, cnpj);
+    INSERT INTO adera.endereco VALUES (cep, logradouro, numero, cidade, estado, complemento, bairro, id);
+    INSERT INTO adera.opcoes VALUES (1, false, false, "00:00:00", 100, 100, 100, 100);
+    COMMIT;
+END//
+
+INSERT INTO estabelecimento VALUES
+	('0b67f33a-654b-11ee-8c99-0242ac120002', 'Walmart', '24616269000165');
+
+INSERT INTO endereco VALUES
+	('08490600', 'Rua dos Têxteis', '2746', 'São Paulo', 'SP', '32b', 'Cidade Tiradentes', '0b67f33a-654b-11ee-8c99-0242ac120002');
+
+INSERT INTO adera.usuario VALUES 
+	('9f2eea3a-70f7-11ee-b962-0242ac120002', 'renansilva.dev@gmail.com', 'aditum123', 'Renan', 'Silva', 'Tecnico', '0b67f33a-654b-11ee-8c99-0242ac120002');
