@@ -27,4 +27,4 @@ jobs:
           context: .
           file: ./dataFolder/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/db-adera:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/db:latest
