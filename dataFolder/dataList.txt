@@ -1,0 +1,24 @@
+Usar o tipo UUID para todo registro
+ID (UUID) Exemplo 123e4567-e89b-12d3-a456-426655440000
+
+
+Empresa(nome, cnpj)
+
+Unidade(telFixo, nome, cep, logradouro, numero, complemento, bairro, cidade, estado)
+
+Usuário(email, senha, nome)
+
+Máquina(nome, numeroSerie, OS)
+
+Componentes de Hardware[
+CPU[qtCores, Clock, qtThreads, Arquitetura],
+Memoria[Capacidade], 
+RAM[Quantidade, Frequência],
+]
+
+Rede(velocidadeDownload, velocidadeUpload, DATAHORA, latencia)
+
+Metrica/Leitura(porcentagem de uso, DATAHORA)
+
+Alerta(DATAHORA, mensagem, tipo)
+
