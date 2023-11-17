@@ -13,7 +13,6 @@ CREATE TABLE IF NOT EXISTS adera.estabelecimento (
 ;
 
 INSERT INTO adera.estabelecimento VALUES ('78c0330e-70f7-11ee-b962-0242ac120002', 'Walmart', '24616269000165');
-
 -- -----------------------------------------------------
 -- Table adera.maquina
 -- -----------------------------------------------------
