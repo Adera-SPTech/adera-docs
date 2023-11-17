@@ -1,10 +1,12 @@
 name: Auto DB Image Adera
 on:
   push:
-    branches:
-      - "master"
+     paths:
+      - '/dataFolder/scriptBD.sql'
+
   pull_request:
-    types: [closed]
+    paths:
+      - '/dataFolder/scriptBD.sql'
 jobs:
   build:
     runs-on: ubuntu-latest
