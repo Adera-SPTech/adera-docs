@@ -76,6 +76,7 @@ CREATE TABLE IF NOT EXISTS adera.maquinacomponente (
   modelo VARCHAR(90) NOT NULL,
   descricao VARCHAR(180) NOT NULL,
   capacidade DOUBLE NOT NULL,
+  ativo BOOLEAN NOT NULL,
   fkMaquina CHAR(36) NOT NULL,
   fkTipoComponente INT NOT NULL,
   PRIMARY KEY (id),
@@ -178,7 +179,7 @@ CREATE TABLE IF NOT EXISTS adera.opcoes (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS adera.comando (
 	id CHAR(36) NOT NULL,
-    comando INT NOT NULL,
+    comando VARCHAR(45) NOT NULL,
     rodou BOOLEAN NOT NULL,
     fkMaquina CHAR(36) NOT NULL,
     INDEX fkMaquina (fkMaquina ASC) VISIBLE,
