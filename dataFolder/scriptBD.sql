@@ -1,6 +1,6 @@
 DROP DATABASE IF EXISTS adera;
 CREATE DATABASE IF NOT EXISTS adera;
-USE adera ;
+USE adera;
 
 -- -----------------------------------------------------
 -- Table adera.estabelecimento
@@ -76,6 +76,7 @@ CREATE TABLE IF NOT EXISTS adera.maquinacomponente (
   modelo VARCHAR(90) NOT NULL,
   descricao VARCHAR(180) NOT NULL,
   capacidade DOUBLE NOT NULL,
+  ativo BOOLEAN NOT NULL,
   fkMaquina CHAR(36) NOT NULL,
   fkTipoComponente INT NOT NULL,
   PRIMARY KEY (id),
@@ -109,6 +110,7 @@ CREATE TABLE IF NOT EXISTS adera.metrica (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS adera.alerta (
   id CHAR(36) NOT NULL,
+  data DATETIME NOT NULL,
   nivel VARCHAR(10) NOT NULL,
   descricao VARCHAR(90) NOT NULL,
   fkMetrica CHAR(36) NOT NULL,
@@ -177,7 +179,7 @@ CREATE TABLE IF NOT EXISTS adera.opcoes (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS adera.comando (
 	id CHAR(36) NOT NULL,
-    comando INT NOT NULL,
+    comando VARCHAR(45) NOT NULL,
     rodou BOOLEAN NOT NULL,
     fkMaquina CHAR(36) NOT NULL,
     INDEX fkMaquina (fkMaquina ASC) VISIBLE,
@@ -195,6 +197,49 @@ BEGIN
     INSERT INTO adera.opcoes VALUES (1, false, false, "00:00:00", 100, 100, 100, 100);
     COMMIT;
 END//
+
+CREATE VIEW adera.maquina_status AS
+SELECT
+    m.id AS maquina_id,
+    m.nomeMaquina,
+    m.os,
+    m.fabricante,
+    m.arquitetura,
+    m.enderecoMac,
+    m.fkEstabelecimento,
+    CASE
+        WHEN TIMESTAMPDIFF(SECOND, MAX(metrica.data), NOW()) <= 30 THEN true
+        ELSE false
+    END AS isOnline,
+    MAX(metrica.medicao) AS diskUsage
+FROM
+    adera.maquina m
+LEFT JOIN adera.maquinacomponente mc ON m.id = mc.fkMaquina
+LEFT JOIN adera.metrica metrica ON mc.id = metrica.fkMaquinaComponente AND mc.fkTipoComponente = (SELECT id FROM adera.tipocomponente WHERE nome = 'DISK')
+GROUP BY
+    m.id, m.nomeMaquina, m.os, m.fabricante, m.arquitetura, m.enderecoMac, m.fkEstabelecimento;
+
+CREATE VIEW adera.last_problem AS
+SELECT
+    m.id AS machine_id,
+    m.nomeMaquina AS machine_name,
+    a.id AS alert_id,
+    a.nivel AS alert_level,
+    a.descricao AS alert_description,
+    a.data AS alert_date
+FROM
+    adera.maquina m
+JOIN
+    adera.maquinacomponente mc ON m.id = mc.fkMaquina
+JOIN
+    adera.metrica met ON mc.id = met.fkMaquinaComponente
+JOIN
+    adera.alerta a ON met.id = a.fkMetrica
+WHERE
+    a.data >= NOW() - INTERVAL 1 WEEK
+ORDER BY
+    a.data DESC
+LIMIT 1;
 
 INSERT INTO estabelecimento VALUES
 	('0b67f33a-654b-11ee-8c99-0242ac120002', 'Walmart', '24616269000165');
