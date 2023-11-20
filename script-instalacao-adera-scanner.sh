@@ -17,4 +17,4 @@ fi
 sudo docker run -d -p 3306:3306 aderatech/db:latest
 sleep 5
 clear
-sudo docker run -it aderatech/jar:latest
+sudo docker run --privileged -it aderatech/jar:latest
