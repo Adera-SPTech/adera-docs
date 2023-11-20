@@ -1,26 +1,20 @@
 #!/bin/bash
 
-# Atualiza a lista de pacotes e atualiza o sistema
-sudo apt update && sudo apt upgrade -y
-
-# Check if java is installed
-if command -v java &> /dev/null
+sudo apt update
+if command docker  &> /dev/null
 then
-    echo "Java já está instalado."
+    echo "Docker já está instalado."
 else
-    # Ask the user if they want to install java
-    read -p "Java não está instalado, desejá instalar o java? (s/n): " install_java
-    if [ "$install_java" == "s" ]; then
-        # Install Java
-        sudo apt install openjdk-17-jre
-        echo "Java instalado com sucesso."
+    read -p "Ambiente não está instalado, deseja instalar o ambiente? (s/n): " res
+    if [ "$res" == "s" ]||[ "$res" == "S" ]||[ "$res" == "SIM" ]||[ "$res" == "sim" ]||[ "$res" == "Sim" ]; then
+        sudo apt install docker.io -y
+        echo "Ambiente instalado com sucesso."
     else
-        echo "Java não está instalado. Saindo..."
+        echo "Ambiente não instalado. Saindo..."
         exit 1
     fi
 fi
-
-# Baixa o arquivo .jar do meu grupo de PI
-curl -O -L "https://github.com/Adera-SPTech/adera-scanner/raw/dev/out/artifacts/adera_scanner_jar/adera-scanner.jar"
-
-chmod +x script-instalacao-adera-scanner.sh
+sudo docker run -d -p 3306:3306 aderatech/db:latest
+sleep 5
+clear
+sudo docker run -it aderatech/jar:latest
