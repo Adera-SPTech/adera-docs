@@ -164,9 +164,14 @@ CREATE TABLE IF NOT EXISTS adera.opcoes (
     autoRestart BOOLEAN NOT NULL,
     restartPeriodico BOOLEAN NOT NULL,
     horaRestart TIME NOT NULL,
+    cpuAtencao INT NOT NULL,
+    ramAtencao INT NOT NULL,
+    diskAtencao INT NOT NULL,
+    latencyAtencao INT NOT NULL,
     cpuLimite INT NOT NULL,
     ramLimite INT NOT NULL,
     diskLimite INT NOT NULL,
+    latencyLimite INT NOT NULL,
     fkEstabelecimento CHAR(36) NOT NULL,
     PRIMARY KEY (id, fkEstabelecimento),
     INDEX fkEstabelecimento (fkEstabelecimento ASC) VISIBLE,
@@ -194,7 +199,7 @@ BEGIN
 	START TRANSACTION;
 	INSERT INTO adera.estabelecimento VALUES (id, nome, cnpj);
     INSERT INTO adera.endereco VALUES (cep, logradouro, numero, cidade, estado, complemento, bairro, id);
-    INSERT INTO adera.opcoes VALUES (1, false, false, "00:00:00", 100, 100, 100, 100);
+    INSERT INTO adera.opcoes VALUES (1, false, false, "00:00:00", 100, 100, 100, 100, 100, 100, 100, 100, id);
     COMMIT;
 END//
 
