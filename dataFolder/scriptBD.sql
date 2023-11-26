@@ -12,8 +12,6 @@ CREATE TABLE IF NOT EXISTS adera.estabelecimento (
   PRIMARY KEY (id))
 ;
 
-INSERT INTO adera.estabelecimento VALUES ('78c0330e-70f7-11ee-b962-0242ac120002', 'Walmart', '24616269000165');
-
 -- -----------------------------------------------------
 -- Table adera.maquina
 -- -----------------------------------------------------
@@ -26,7 +24,7 @@ CREATE TABLE IF NOT EXISTS adera.maquina (
   enderecoMac varchar(45) not null,
   fkEstabelecimento CHAR(36) NOT NULL,
   PRIMARY KEY (id),
-  INDEX fkEstabelecimento (fkEstabelecimento ASC) VISIBLE,
+  INDEX fkEstabelecimento (fkEstabelecimento ASC) ,
   CONSTRAINT maquina_ibfk_1
     FOREIGN KEY (fkEstabelecimento)
     REFERENCES adera.estabelecimento (id))
@@ -51,7 +49,7 @@ CREATE TABLE IF NOT EXISTS adera.tipocomponente (
   nome VARCHAR(45) NOT NULL,
   fkUnidadeMedida INT NOT NULL,
   PRIMARY KEY (id),
-  INDEX fkUnidadeMedida (fkUnidadeMedida ASC) VISIBLE,
+  INDEX fkUnidadeMedida (fkUnidadeMedida ASC) ,
   CONSTRAINT tipocomponente_ibfk_1
     FOREIGN KEY (fkUnidadeMedida)
     REFERENCES adera.unidademedida (id));
@@ -80,8 +78,8 @@ CREATE TABLE IF NOT EXISTS adera.maquinacomponente (
   fkMaquina CHAR(36) NOT NULL,
   fkTipoComponente INT NOT NULL,
   PRIMARY KEY (id),
-  INDEX fkMaquina (fkMaquina ASC) VISIBLE,
-  INDEX fkTipoComponente (fkTipoComponente ASC) VISIBLE,
+  INDEX fkMaquina (fkMaquina ASC) ,
+  INDEX fkTipoComponente (fkTipoComponente ASC) ,
   CONSTRAINT maquinacomponente_ibfk_1
     FOREIGN KEY (fkMaquina)
     REFERENCES adera.maquina (id),
@@ -95,11 +93,12 @@ CREATE TABLE IF NOT EXISTS adera.maquinacomponente (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS adera.metrica (
   id CHAR(36) NOT NULL,
-  medicao VARCHAR(180) NOT NULL,
+  medicao INT NOT NULL,
   data DATETIME NOT NULL,
+  alertado BOOLEAN NOT NULL,
   fkMaquinaComponente CHAR(36) NOT NULL,
   PRIMARY KEY (id),
-  INDEX fkMaquinaComponente (fkMaquinaComponente ASC) VISIBLE,
+  INDEX fkMaquinaComponente (fkMaquinaComponente ASC) ,
   CONSTRAINT metrica_ibfk_1
     FOREIGN KEY (fkMaquinaComponente)
     REFERENCES adera.maquinacomponente (id));
@@ -115,7 +114,7 @@ CREATE TABLE IF NOT EXISTS adera.alerta (
   descricao VARCHAR(90) NOT NULL,
   fkMetrica CHAR(36) NOT NULL,
   PRIMARY KEY (id),
-  INDEX fkMetrica (fkMetrica ASC) VISIBLE,
+  INDEX fkMetrica (fkMetrica ASC) ,
   CONSTRAINT alerta_ibfk_1
     FOREIGN KEY (fkMetrica)
     REFERENCES adera.metrica (id));
@@ -133,7 +132,7 @@ CREATE TABLE IF NOT EXISTS adera.endereco (
   complemento VARCHAR(45) NULL DEFAULT NULL,
   bairro VARCHAR(45) NOT NULL,
   fkEstabelecimento CHAR(36) NOT NULL,
-  INDEX fkEstabelecimento (fkEstabelecimento ASC) VISIBLE,
+  INDEX fkEstabelecimento (fkEstabelecimento ASC) ,
   CONSTRAINT endereco_ibfk_1
     FOREIGN KEY (fkEstabelecimento)
     REFERENCES adera.estabelecimento (id));
@@ -151,7 +150,7 @@ CREATE TABLE IF NOT EXISTS adera.usuario (
   cargo VARCHAR(45) NOT NULL,
   fkEstabelecimento CHAR(36) NOT NULL,
   PRIMARY KEY (id),
-  INDEX fkEstabelecimento (fkEstabelecimento ASC) VISIBLE,
+  INDEX fkEstabelecimento (fkEstabelecimento ASC) ,
   CONSTRAINT usuario_ibfk_1
     FOREIGN KEY (fkEstabelecimento)
     REFERENCES adera.estabelecimento (id));
@@ -174,7 +173,7 @@ CREATE TABLE IF NOT EXISTS adera.opcoes (
     latencyLimite INT NOT NULL,
     fkEstabelecimento CHAR(36) NOT NULL,
     PRIMARY KEY (id, fkEstabelecimento),
-    INDEX fkEstabelecimento (fkEstabelecimento ASC) VISIBLE,
+    INDEX fkEstabelecimento (fkEstabelecimento ASC) ,
     CONSTRAINT opcoes_ibfk_1
 		FOREIGN KEY (fkEstabelecimento)
         REFERENCES adera.estabelecimento (id));
@@ -187,7 +186,7 @@ CREATE TABLE IF NOT EXISTS adera.comando (
     comando VARCHAR(45) NOT NULL,
     rodou BOOLEAN NOT NULL,
     fkMaquina CHAR(36) NOT NULL,
-    INDEX fkMaquina (fkMaquina ASC) VISIBLE,
+    INDEX fkMaquina (fkMaquina ASC) ,
     CONSTRAINT comando_ibfk_1
 		FOREIGN KEY (fkMaquina)
         REFERENCES adera.maquina (id));
