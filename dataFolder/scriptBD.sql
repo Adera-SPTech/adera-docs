@@ -2,6 +2,9 @@ DROP DATABASE IF EXISTS adera;
 CREATE DATABASE IF NOT EXISTS adera;
 USE adera;
 
+CREATE USER 'adera'@'%' IDENTIFIED BY 'aderatech';
+GRANT ALL PRIVILEGES ON adera.* TO 'adera'@'%';
+FLUSH PRIVILEGES;
 -- -----------------------------------------------------
 -- Table adera.estabelecimento
 -- -----------------------------------------------------
