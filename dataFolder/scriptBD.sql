@@ -248,6 +248,37 @@ LIMIT 1;
 
 INSERT INTO estabelecimento VALUES
 	('0b67f33a-654b-11ee-8c99-0242ac120002', 'Walmart', '24616269000165');
+    
+INSERT INTO opcoes (
+  id,
+  autoRestart, 
+  restartPeriodico, 
+  horaRestart, 
+  cpuAtencao, 
+  ramAtencao, 
+  diskAtencao, 
+  latencyAtencao, 
+  cpuLimite, 
+  ramLimite, 
+  diskLimite, 
+  latencyLimite, 
+  fkEstabelecimento
+)
+VALUES (
+  1,
+  0, -- autoRestart
+  0, -- restartPeriodico
+  '00:00:00', -- horaRestart
+  100, -- cpuAtencao
+  100, -- ramAtencao
+  100, -- diskAtencao
+  100, -- latencyAtencao
+  100, -- cpuLimite
+  100, -- ramLimite
+  100, -- diskLimite
+  100, -- latencyLimite
+  '0b67f33a-654b-11ee-8c99-0242ac120002'
+);
 
 INSERT INTO endereco VALUES
 	('08490600', 'Rua dos Têxteis', '2746', 'São Paulo', 'SP', '32b', 'Cidade Tiradentes', '0b67f33a-654b-11ee-8c99-0242ac120002');
