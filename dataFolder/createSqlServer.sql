@@ -36,6 +36,18 @@ CREATE TABLE tipocomponente (
   FOREIGN KEY (fkUnidadeMedida) REFERENCES unidademedida (id)
 );
 
+INSERT INTO unidademedida (nome, abreviacao) VALUES 
+	('byte', 'b'),
+    ('porcentagem', '%'),
+    ('heartz', 'hz'),
+	('milisegundos', 'ms');
+
+INSERT INTO tipocomponente (nome, fkUnidadeMedida) VALUES
+	('CPU', 2),
+    ('MEMORY', 1),
+    ('DISK', 1),
+    ('NETWORK', 4);
+
 -- Table adera.maquinacomponente
 CREATE TABLE maquinacomponente (
   id UNIQUEIDENTIFIER PRIMARY KEY,
