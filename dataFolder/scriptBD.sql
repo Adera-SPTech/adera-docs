@@ -113,6 +113,7 @@ CREATE TABLE IF NOT EXISTS adera.alerta (
   nivel VARCHAR(10) NOT NULL,
   descricao VARCHAR(90) NOT NULL,
   fkMetrica CHAR(36) NOT NULL,
+  lido bool NOT NULL,
   PRIMARY KEY (id),
   INDEX fkMetrica (fkMetrica ASC) ,
   CONSTRAINT alerta_ibfk_1
