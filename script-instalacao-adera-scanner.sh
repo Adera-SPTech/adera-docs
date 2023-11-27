@@ -14,8 +14,8 @@ else
         exit 1
     fi
 fi
-sudo docker run -d -p 3306:3306 aderatech/db:latest
+sudo docker run  -d --name db -p 3306:3306 aderatech/db:latest
 sleep 5
 clear
-sudo docker run -it --privileged --cap-add=ALL -v /bin/systemctl:/bin/systemctl -v /run/systemd/system:/run/systemd/system -v /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket -v /sys/fs/cgroup:/sys/fs/cgroup aderatech/jar:latest;
+sudo docker run -it --privileged --name jar --cap-add=ALL -v /bin/systemctl:/bin/systemctl -v /run/systemd/system:/run/systemd/system -v /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket -v /sys/fs/cgroup:/sys/fs/cgroup aderatech/jar:latest;
 
